@@ -106,28 +106,40 @@ namespace WariorsWar
             int kingIndex = 3;
             int wizardIndex = 4;
             int spikeIndex = 5;
-            Console.WriteLine("Выберите бойца\n" +
+            Warior chosenWarior = null;
+
+            while (chosenWarior == null)
+            {
+                Console.WriteLine("Выберите бойца\n" +
                 $"{ChosePaladinCommand} - Паладин\n" +
                 $"{ChoseAstralGhostCommand} - Астральный призрак\n" +
                 $"{ChoseKingCommand} - Король\n" +
                 $"{ChoseWizardCommand} - Волшебник\n" +
                 $"{ChoseSpikeCommand} - Колючка");
-            switch (Console.ReadLine())
-            {
-                case ChosePaladinCommand:
-                    return _unitFactory.CreateWarior(paladinIndex);
-                case ChoseAstralGhostCommand:
-                    return _unitFactory.CreateWarior(astralGhostIndex);
-                case ChoseKingCommand:
-                    return _unitFactory.CreateWarior(kingIndex);
-                case ChoseWizardCommand:
-                    return _unitFactory.CreateWarior(wizardIndex);
-                case ChoseSpikeCommand:
-                    return _unitFactory.CreateWarior(spikeIndex);
-                default:
-                    Console.WriteLine("не верный индекс");
-                    return null;
+                switch (Console.ReadLine())
+                {
+                    case ChosePaladinCommand:
+                        chosenWarior = _unitFactory.CreateWarior(paladinIndex);
+                        break;
+                    case ChoseAstralGhostCommand:
+                        chosenWarior = _unitFactory.CreateWarior(astralGhostIndex);
+                        break;
+                    case ChoseKingCommand:
+                        chosenWarior = _unitFactory.CreateWarior(kingIndex);
+                        break;
+                    case ChoseWizardCommand:
+                        chosenWarior = _unitFactory.CreateWarior(wizardIndex);
+                        break;
+                    case ChoseSpikeCommand:
+                        chosenWarior = _unitFactory.CreateWarior(spikeIndex);
+                        break;
+                    default:
+                        Console.WriteLine("не верный индекс");
+                        break;
+                }
             }
+
+            return chosenWarior;
         }
 
         private Warior TryGetLosingWarior(Warior firstWarior, Warior secondWarior)
