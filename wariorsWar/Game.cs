@@ -5,18 +5,18 @@ namespace WariorsWar
 {
     internal class Game
     {
-        private UnitFactory _unitFactory;
-        private List<Warior> _wariorsList;
+        private List<UnitFactory> _unitFactorys;
 
         public Game()
         {
-            _wariorsList = new List<Warior>();
-            _unitFactory = new UnitFactory();
-            _unitFactory.RegisterClass(1, () => new Paladin(100, 10));
-            _unitFactory.RegisterClass(2, () => new AstralGhost(100, 10));
-            _unitFactory.RegisterClass(3, () => new King(100, 1));
-            _unitFactory.RegisterClass(4, () => new Wizard(75, 15));
-            _unitFactory.RegisterClass(5, () => new Spike(100, 10));
+            _unitFactorys = new List<UnitFactory>()
+            {
+                new PaladinFactory(),
+                new AstralGhostFactory(),
+                new KingFactory(),
+                new WizardFactory(),
+                new SpikeFactory(),
+            };
         }
 
         public void Play()
@@ -26,23 +26,18 @@ namespace WariorsWar
 
             bool isPlay = true;
 
-            Console.WriteLine("После нажатия любой клавиши начнётся игра. Краткое описание:\n" +
+            Console.WriteLine(
+                "После нажатия любой клавиши начнётся игра. Краткое описание:\n" +
                 "Сначала выбирите 2 бойцов, дополнительно ничего вводить не надо, все бойцы автоматически настроятся.\n" +
                 "Наблюдайте за битвой.\n" +
-                "Эксперементируйте с сочитанием бойцов, чтобы узнать, кто сильнее.\n" +
-                "Описание бойцов:\n" +
-                "   Паладин - обладает внушительной броней и большим запасом здоровья, стабильно наносит небольшой урон.\n" +
-                "   Астральный призрак - Способен игнорировать часть урона, но с некоторым шансом его урон также будет снижен\n" +
-                "   Король - не серьезный противник. Получает и наносит 1 еденицу урона. Хихихиха\n" +
-                "   Волшебник - имеет скромный запас здоровья, но большой урон. способен увеличивать свой урон за счет манны.\n" +
-                "   Колючка - нанесенный ему урон частично добавляется к его основному.");
+                "Эксперементируйте с сочитанием бойцов, чтобы узнать, кто сильнее.\n");
 
-            Console.ReadKey(true);
             Console.Clear();
 
             while (isPlay)
             {
-                Console.WriteLine($"{PlayCommand} - играть.\n" +
+                Console.WriteLine(
+                    $"{PlayCommand} - играть.\n" +
                     $"{ExitCommand} - выйти.");
                 switch (Console.ReadLine())
                 {
@@ -61,88 +56,37 @@ namespace WariorsWar
 
         private void ManageFight()
         {
-            const string DeleteWariorCommand = "1";
-            const string DontDeleteWariorCommand = "2";
+            Warior warior1 = ChoseWarior();
+            Warior warior2 = ChoseWarior();
 
-            int firstWighterIndex = 0;
-            int secondWighterIndex = 1;
-
-            while (_wariorsList.Count < 2)
-            {
-                Warior warior = TryChoseWarior();
-                _wariorsList.Add(warior);
-            }
-
-            Warior losingWarior = TryGetLosingWarior(_wariorsList[firstWighterIndex], _wariorsList[secondWighterIndex]);
-            _wariorsList.Remove(losingWarior);
-
-            Console.WriteLine("Мертвый персонаж удалён. Удалить живого?\n" +
-                $"{DeleteWariorCommand} - да\n" +
-                $"{DontDeleteWariorCommand} - нет");
-
-            switch (Console.ReadLine())
-            {
-                case DeleteWariorCommand:
-                    _wariorsList.Clear();
-                    break;
-                case DontDeleteWariorCommand:
-                    break;
-                default:
-                    Console.WriteLine("Нет такой опции.");
-                    break;
-            }
+            Fight(warior1, warior2);
+            GetLosingWarior(warior1, warior2);
         }
 
-        private Warior TryChoseWarior()
+        private Warior ChoseWarior()
         {
-            const string ChosePaladinCommand = "1";
-            const string ChoseAstralGhostCommand = "2";
-            const string ChoseKingCommand = "3";
-            const string ChoseWizardCommand = "4";
-            const string ChoseSpikeCommand = "5";
+            Warior warior = null;
 
-            int paladinIndex = 1;
-            int astralGhostIndex = 2;
-            int kingIndex = 3;
-            int wizardIndex = 4;
-            int spikeIndex = 5;
-            Warior chosenWarior = null;
-
-            while (chosenWarior == null)
+            while (warior == null)
             {
-                Console.WriteLine("Выберите бойца\n" +
-                $"{ChosePaladinCommand} - Паладин\n" +
-                $"{ChoseAstralGhostCommand} - Астральный призрак\n" +
-                $"{ChoseKingCommand} - Король\n" +
-                $"{ChoseWizardCommand} - Волшебник\n" +
-                $"{ChoseSpikeCommand} - Колючка");
-                switch (Console.ReadLine())
+                for (int i = 0; i < _unitFactorys.Count; i++)
                 {
-                    case ChosePaladinCommand:
-                        chosenWarior = _unitFactory.CreateWarior(paladinIndex);
-                        break;
-                    case ChoseAstralGhostCommand:
-                        chosenWarior = _unitFactory.CreateWarior(astralGhostIndex);
-                        break;
-                    case ChoseKingCommand:
-                        chosenWarior = _unitFactory.CreateWarior(kingIndex);
-                        break;
-                    case ChoseWizardCommand:
-                        chosenWarior = _unitFactory.CreateWarior(wizardIndex);
-                        break;
-                    case ChoseSpikeCommand:
-                        chosenWarior = _unitFactory.CreateWarior(spikeIndex);
-                        break;
-                    default:
-                        Console.WriteLine("не верный индекс");
-                        break;
+                    Console.WriteLine($"{i + 1} - {_unitFactorys[i].UnitName}");
+                }
+
+                if (int.TryParse(Console.ReadLine(), out int chosenCommand))
+                {
+                    if (_unitFactorys.Count > chosenCommand - 1 && chosenCommand - 1 >= 0)
+                    {
+                        warior = _unitFactorys[chosenCommand - 1].CreateWarior();
+                    }
                 }
             }
 
-            return chosenWarior;
+            return warior;
         }
 
-        private Warior TryGetLosingWarior(Warior firstWarior, Warior secondWarior)
+        private void Fight(Warior firstWarior, Warior secondWarior)
         {
             while (firstWarior.IsDead == false && secondWarior.IsDead == false)
             {
@@ -152,16 +96,17 @@ namespace WariorsWar
                     secondWarior.MakeDamage(firstWarior);
                 }
             }
+        }
 
-            if (firstWarior.IsDead == true)
+        private void GetLosingWarior(Warior firstWarior, Warior secondWarior)
+        {
+            if (firstWarior.IsDead)
             {
                 Console.WriteLine($"победа за {secondWarior} (2 боец)");
-                return firstWarior;
             }
             else
             {
                 Console.WriteLine($"победа за {firstWarior} (1 боец)");
-                return secondWarior;
             }
         }
     }

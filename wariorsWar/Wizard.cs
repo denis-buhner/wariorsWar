@@ -2,19 +2,19 @@
 {
     internal class Wizard : Warior
     {
-        private int _manna;
-        private int _maxMannaPerRound;
+        private readonly int _manna;
+        private readonly int _maxMannaPerRound;
 
-        public Wizard(int health, int damage)
-            : base(health, damage)
+        public Wizard(int health, int damage, string description, string name)
+            : base(health, damage, description, name)
         {
-            TakeDamageReactions.AddRange(new[]
+            AddDefenceReactions(new[]
             {
                 "Дрянные маглы!",
                 "Не трогайте меня!",
                 "О нет, моя манна утекает!",
             });
-            MakeDamageReactions.AddRange(new[]
+            AddAttackReactions(new[]
             {
                 "Получите моей магии!",
                 "Your soul is mine!",
@@ -24,17 +24,12 @@
             _maxMannaPerRound = 20;
         }
 
-        public override string ToString()
+        protected override int ChangeAttack(int damage)
         {
-            return $"Маг. {base.ToString()}";
+            return damage + UpscaleDamageByManna();
         }
 
-        protected override int ChangeOutgoingDamage(int damage)
-        {
-            return damage + TryUpscaleDamageByAvaliableManna();
-        }
-
-        private int TryUpscaleDamageByAvaliableManna()
+        private int UpscaleDamageByManna()
         {
             int usedManna = Utility.GetRandomNumber(_maxMannaPerRound);
             int avaliableManna;

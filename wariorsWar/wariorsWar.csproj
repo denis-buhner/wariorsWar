@@ -44,16 +44,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AstralGhost.cs" />
+    <Compile Include="AstralGhostFactory.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="King.cs" />
+    <Compile Include="KingFactory.cs" />
     <Compile Include="Paladin.cs" />
+    <Compile Include="PaladinFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Spike.cs" />
+    <Compile Include="SpikeFactory.cs" />
     <Compile Include="UnitFactory.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="Warior.cs" />
     <Compile Include="Wizard.cs" />
+    <Compile Include="WizardFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig">

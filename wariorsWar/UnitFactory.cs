@@ -3,25 +3,24 @@ using System.Collections.Generic;
 
 namespace WariorsWar
 {
-    internal class UnitFactory
+    internal abstract class UnitFactory
     {
-        private Dictionary<int, Func<Warior>> _creators = new Dictionary<int, Func<Warior>>();
-
-        public void RegisterClass(int id, Func<Warior> creator)
+        public UnitFactory(int unitHealth, int unitDamage, string unitDescription, string unitName)
         {
-            _creators[id] = creator;
+            UnitHealth = unitHealth;
+            UnitDamage = unitDamage;
+            UnitDescription = unitDescription;
+            UnitName = unitName;
         }
 
-        public Warior CreateWarior(int id)
-        {
-            if (_creators.ContainsKey(id))
-            {
-                return _creators[id]();
-            }
-            else
-            {
-                throw new ArgumentException(string.Format("index for creating not found"));
-            }
-        }
+        public string UnitDescription { get; }
+
+        public string UnitName { get; }
+
+        public int UnitDamage { get; }
+
+        public int UnitHealth { get; }
+
+        public abstract Warior CreateWarior();
     }
 }

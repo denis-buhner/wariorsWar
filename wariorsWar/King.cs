@@ -2,19 +2,19 @@
 {
     internal class King : Warior
     {
-        private int _incomingDamage;
-        private int _outgoingDamage;
+        private readonly int _incomingDamage;
+        private readonly int _outgoingDamage;
 
-        public King(int health, int damage)
-            : base(health, damage)
+        public King(int health, int damage, string description, string name)
+            : base(health, damage, description, name)
         {
-            TakeDamageReactions.AddRange(new[]
+            AddDefenceReactions(new[]
             {
                 "Гарррр!",
                 "Плак, плак",
                 "Хнык...",
             });
-            MakeDamageReactions.AddRange(new[]
+            AddAttackReactions(new[]
             {
                 "Хихихиха",
                 "Хаха",
@@ -24,17 +24,12 @@
             _outgoingDamage = 1;
         }
 
-        public override string ToString()
-        {
-            return $"Король. {base.ToString()}";
-        }
-
-        protected override int ChangeIncomingDamage(int damage)
+        protected override int ChangeDefence(int damage)
         {
             return _incomingDamage;
         }
 
-        protected override int ChangeOutgoingDamage(int damage)
+        protected override int ChangeAttack(int damage)
         {
             return _outgoingDamage;
         }

@@ -1,20 +1,22 @@
-﻿namespace WariorsWar
+﻿using System.Runtime.InteropServices;
+
+namespace WariorsWar
 {
     internal class Paladin : Warior
     {
-        private int _armor;
-        private int _minimalIncomingDamage;
+        private readonly int _armor;
+        private readonly int _minimalIncomingDamage;
 
-        public Paladin(int health, int damage)
-            : base(health, damage)
+        public Paladin(int health, int damage, string description, string name)
+            : base(health, damage, description, name)
         {
-            TakeDamageReactions.AddRange(new[]
+            AddDefenceReactions(new[]
             {
                 "Тебе не пробить мою броню!",
                 "Моя защита все так же крепка!",
                 "Это был хороший удар!",
             });
-            MakeDamageReactions.AddRange(new[]
+            AddAttackReactions(new[]
             {
                 "Боги на моей стороне!",
                 "Злу не выстоять в битве со мной!",
@@ -24,12 +26,7 @@
             _minimalIncomingDamage = 1;
         }
 
-        public override string ToString()
-        {
-            return $"Паладин. {base.ToString()}";
-        }
-
-        protected override int ChangeIncomingDamage(int damage)
+        protected override int ChangeDefence(int damage)
         {
             if (damage - _armor <= 0)
             {

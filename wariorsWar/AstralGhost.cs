@@ -5,36 +5,31 @@ namespace WariorsWar
 {
     internal class AstralGhost : Warior
     {
-        private int _incomingDamageDownScale;
-        private int _outgoingDamageDownScale;
-        private int _downscaleChanse;
+        private readonly int _incomingDamageDownScale;
+        private readonly int _outgoingDamageDownScale;
+        private readonly int _downscaleChanse;
 
-        public AstralGhost(int health, int damage)
-            : base(health, damage)
+        public AstralGhost(int health, int damage, string description, string name)
+            : base(health, damage, description, name)
         {
-            TakeDamageReactions = new List<string>()
+            AddDefenceReactions(new[]
             {
                 "ьырлп!",
                 "брьльп!",
                 "льып!",
-            };
-            MakeDamageReactions = new List<string>()
+            });
+            AddAttackReactions(new[]
             {
                 "бпрююю!",
                 "дрылб!",
                 "шмть!",
-            };
+            });
             _incomingDamageDownScale = 2;
             _outgoingDamageDownScale = 4;
             _downscaleChanse = 3;
         }
 
-        public override string ToString()
-        {
-            return $"Астральный призрак. {base.ToString()}";
-        }
-
-        protected override int ChangeOutgoingDamage(int damage)
+        protected override int ChangeAttack(int damage)
         {
             if (TryDownScale())
             {
@@ -44,7 +39,7 @@ namespace WariorsWar
             return damage;
         }
 
-        protected override int ChangeIncomingDamage(int damage)
+        protected override int ChangeDefence(int damage)
         {
             return damage / _incomingDamageDownScale;
         }
