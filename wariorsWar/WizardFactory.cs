@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace WariorsWar
+﻿namespace WariorsWar
 {
     internal class WizardFactory : UnitFactory
     {
