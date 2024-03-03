@@ -64,8 +64,8 @@ namespace WariorsWar
 
         private void TakeDamage(int damage)
         {
-            int changedDamage = ComputeIncomingDamage(damage);
-            _health -= changedDamage;
+            int totalDamage = ComputeIncomingDamage(damage);
+            _health -= totalDamage;
 
             Console.WriteLine($"    - {_reactionsToIncomingDamage[Utility.GetRandomNumber(_reactionsToIncomingDamage.Count)]}");
 
@@ -75,7 +75,7 @@ namespace WariorsWar
                 IsDead = true;
             }
 
-            Console.WriteLine($"Впиталось {changedDamage} урона\n");
+            Console.WriteLine($"Впиталось {totalDamage} урона\n");
         }
     }
 }
