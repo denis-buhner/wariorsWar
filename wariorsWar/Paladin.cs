@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace WariorsWar
+﻿namespace WariorsWar
 {
     internal class Paladin : Warior
     {
