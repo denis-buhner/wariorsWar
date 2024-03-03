@@ -5,8 +5,8 @@ namespace WariorsWar
 {
     internal class AstralGhost : Warior
     {
-        private readonly int _incomingDamageDownScale;
-        private readonly int _outgoingDamageDownScale;
+        private readonly int _defenceScale;
+        private readonly int _attackScale;
         private readonly int _downscaleChanse;
 
         public AstralGhost(int health, int damage, string description, string name)
@@ -24,8 +24,8 @@ namespace WariorsWar
                 "дрылб!",
                 "шмть!",
             });
-            _incomingDamageDownScale = 2;
-            _outgoingDamageDownScale = 4;
+            _defenceScale = 2;
+            _attackScale = 4;
             _downscaleChanse = 3;
         }
 
@@ -33,7 +33,7 @@ namespace WariorsWar
         {
             if (TryDownScale())
             {
-                return damage / _outgoingDamageDownScale;
+                return damage / _attackScale;
             }
 
             return damage;
@@ -41,7 +41,7 @@ namespace WariorsWar
 
         protected override int ChangeDefence(int damage)
         {
-            return damage / _incomingDamageDownScale;
+            return damage / _defenceScale;
         }
 
         private bool TryDownScale()
