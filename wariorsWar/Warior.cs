@@ -5,6 +5,8 @@ namespace WariorsWar
 {
     internal abstract class Warior
     {
+        private readonly string _name;
+        private readonly string _description;
         private int _health;
         private int _damage;
         private List<string> _reactionsToOutgoingDamage;
@@ -17,31 +19,27 @@ namespace WariorsWar
             _reactionsToIncomingDamage = new List<string>();
             _reactionsToOutgoingDamage = new List<string>();
             IsDead = false;
-            Description = description;
-            Name = name;
+            _description = description;
+            _name = name;
         }
 
         public bool IsDead { get; private set; }
-
-        public string Description { get; }
-
-        public string Name { get; }
 
         public void MakeDamage(Warior warior)
         {
             Console.WriteLine($"{this} нападает");
             Console.WriteLine($"    - {_reactionsToOutgoingDamage[Utility.GetRandomNumber(_reactionsToOutgoingDamage.Count)]}");
 
-            int changedOutgoingDamage = ChangeAttack(_damage);
+            int changedAttack = ChangeAttack(_damage);
 
-            Console.WriteLine($"попытка нанести {changedOutgoingDamage} урона\n");
+            Console.WriteLine($"попытка нанести {changedAttack} урона\n");
             Console.WriteLine($"{warior} защищается");
-            warior.TakeDamage(changedOutgoingDamage);
+            warior.TakeDamage(changedAttack);
         }
 
         public override string ToString()
         {
-            return $"{Name}. Очки здоровья = {_health}";
+            return $"{_name}. Очки здоровья = {_health}";
         }
 
         protected void AddAttackReactions(string[] reactions)
@@ -54,7 +52,7 @@ namespace WariorsWar
             _reactionsToIncomingDamage.AddRange(reactions);
         }
 
-        protected virtual int ChangeDefence(int damage)
+        protected virtual int ComputeIncomingDamage(int damage)
         {
             return damage;
         }
@@ -66,8 +64,8 @@ namespace WariorsWar
 
         private void TakeDamage(int damage)
         {
-            int changedIncomingDamage = ChangeDefence(damage);
-            _health -= changedIncomingDamage;
+            int changedDamage = ComputeIncomingDamage(damage);
+            _health -= changedDamage;
 
             Console.WriteLine($"    - {_reactionsToIncomingDamage[Utility.GetRandomNumber(_reactionsToIncomingDamage.Count)]}");
 
@@ -77,7 +75,7 @@ namespace WariorsWar
                 IsDead = true;
             }
 
-            Console.WriteLine($"Впиталось {changedIncomingDamage} урона\n");
+            Console.WriteLine($"Впиталось {changedDamage} урона\n");
         }
     }
 }

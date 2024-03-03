@@ -71,7 +71,8 @@ namespace WariorsWar
             {
                 for (int i = 0; i < _unitFactorys.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1} - {_unitFactorys[i].UnitName}");
+                    Console.WriteLine($"{i + 1} - {_unitFactorys[i].UnitName}\n" +
+                        $"{_unitFactorys[i].UnitDescription}");
                 }
 
                 if (int.TryParse(Console.ReadLine(), out int chosenCommand))

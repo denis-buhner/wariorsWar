@@ -24,7 +24,7 @@
             _minimalIncomingDamage = 1;
         }
 
-        protected override int ChangeDefence(int damage)
+        protected override int ComputeIncomingDamage(int damage)
         {
             if (damage - _armor <= 0)
             {

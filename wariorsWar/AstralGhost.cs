@@ -36,7 +36,7 @@
             return damage;
         }
 
-        protected override int ChangeDefence(int damage)
+        protected override int ComputeIncomingDamage(int damage)
         {
             return damage / _defenceScale;
         }

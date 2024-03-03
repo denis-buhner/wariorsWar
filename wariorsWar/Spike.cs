@@ -29,10 +29,10 @@
             return damage + (_chargedDamage / _chargeDownscale);
         }
 
-        protected override int ChangeDefence(int damage)
+        protected override int ComputeIncomingDamage(int damage)
         {
             _chargedDamage = damage;
-            return base.ChangeDefence(damage);
+            return base.ComputeIncomingDamage(damage);
         }
     }
 }
