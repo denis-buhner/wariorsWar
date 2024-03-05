@@ -24,7 +24,7 @@
             _maxMannaPerRound = 20;
         }
 
-        protected override int ChangeAttack(int damage)
+        protected override int ComputeOutgoingDamage(int damage)
         {
             return damage + UpscaleDamageByManna();
         }

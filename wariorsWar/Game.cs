@@ -32,8 +32,6 @@ namespace WariorsWar
                 "Наблюдайте за битвой.\n" +
                 "Эксперементируйте с сочитанием бойцов, чтобы узнать, кто сильнее.\n");
 
-            Console.Clear();
-
             while (isPlay)
             {
                 Console.WriteLine(
@@ -56,14 +54,14 @@ namespace WariorsWar
 
         private void ManageFight()
         {
-            Warior warior1 = ChoseWarior();
-            Warior warior2 = ChoseWarior();
+            Warior warior1 = ChooseWarior();
+            Warior warior2 = ChooseWarior();
 
             Fight(warior1, warior2);
-            GetLosingWarior(warior1, warior2);
+            ShowLosingWarior(warior1, warior2);
         }
 
-        private Warior ChoseWarior()
+        private Warior ChooseWarior()
         {
             Warior warior = null;
 
@@ -99,7 +97,7 @@ namespace WariorsWar
             }
         }
 
-        private void GetLosingWarior(Warior firstWarior, Warior secondWarior)
+        private void ShowLosingWarior(Warior firstWarior, Warior secondWarior)
         {
             if (firstWarior.IsDead)
             {

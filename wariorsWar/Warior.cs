@@ -30,11 +30,11 @@ namespace WariorsWar
             Console.WriteLine($"{this} нападает");
             Console.WriteLine($"    - {_reactionsToOutgoingDamage[Utility.GetRandomNumber(_reactionsToOutgoingDamage.Count)]}");
 
-            int changedAttack = ChangeAttack(_damage);
+            int changedDammage = ComputeOutgoingDamage(_damage);
 
-            Console.WriteLine($"попытка нанести {changedAttack} урона\n");
+            Console.WriteLine($"попытка нанести {changedDammage} урона\n");
             Console.WriteLine($"{warior} защищается");
-            warior.TakeDamage(changedAttack);
+            warior.TakeDamage(changedDammage);
         }
 
         public override string ToString()
@@ -57,7 +57,7 @@ namespace WariorsWar
             return damage;
         }
 
-        protected virtual int ChangeAttack(int damage)
+        protected virtual int ComputeOutgoingDamage(int damage)
         {
             return damage;
         }

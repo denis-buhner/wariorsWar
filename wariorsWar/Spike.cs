@@ -24,7 +24,7 @@
             _chargeDownscale = 2;
         }
 
-        protected override int ChangeAttack(int damage)
+        protected override int ComputeOutgoingDamage(int damage)
         {
             return damage + (_chargedDamage / _chargeDownscale);
         }

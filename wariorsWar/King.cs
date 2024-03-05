@@ -29,7 +29,7 @@
             return _incomingDamage;
         }
 
-        protected override int ChangeAttack(int damage)
+        protected override int ComputeOutgoingDamage(int damage)
         {
             return _outgoingDamage;
         }

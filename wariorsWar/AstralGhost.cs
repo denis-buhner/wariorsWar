@@ -1,10 +1,12 @@
-﻿namespace WariorsWar
+﻿using System;
+
+namespace WariorsWar
 {
     internal class AstralGhost : Warior
     {
         private readonly int _defenceScale;
         private readonly int _attackScale;
-        private readonly int _downscaleChanse;
+        private readonly double _downscaleChanse;
 
         public AstralGhost(int health, int damage, string description, string name)
             : base(health, damage, description, name)
@@ -23,12 +25,12 @@
             });
             _defenceScale = 2;
             _attackScale = 4;
-            _downscaleChanse = 3;
+            _downscaleChanse = 0.3;
         }
 
-        protected override int ChangeAttack(int damage)
+        protected override int ComputeOutgoingDamage(int damage)
         {
-            if (TryDownScale())
+            if (Utility.CalculateChanse(_downscaleChanse))
             {
                 return damage / _attackScale;
             }
@@ -39,16 +41,6 @@
         protected override int ComputeIncomingDamage(int damage)
         {
             return damage / _defenceScale;
-        }
-
-        private bool TryDownScale()
-        {
-            if (Utility.GetRandomNumber(_downscaleChanse) == _downscaleChanse)
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }
